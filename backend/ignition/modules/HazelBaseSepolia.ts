@@ -1,0 +1,59 @@
+import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
+
+const HazelBaseSepoliaModule = buildModule("HazelBaseSepolia", (m) => {
+  const deployer = m.getAccount(0);
+  const treasury = m.getParameter("treasury", deployer);
+  const harvestInterval = m.getParameter("harvestInterval", 86400n);
+  const feeRate = m.getParameter("feeRate", 1000n);
+
+  // Pas d'USDC natif sur baseSepolia — MockERC20 déployé comme asset
+  const usdc = m.contract("MockERC20", ["USD Coin", "USDC", 6]);
+
+  const insuranceFund = m.contract("InsuranceFund", [
+    "0x0000000000000000000000000000000000000000",
+  ]);
+
+  const revenueDistributor = m.contract("RevenueDistributor", [
+    treasury,
+    insuranceFund,
+  ]);
+
+  const hzStable = m.contract("HzStable", [
+    usdc,
+    "0x0000000000000000000000000000000000000000",
+    revenueDistributor,
+    treasury,
+    harvestInterval,
+    feeRate,
+  ]);
+
+  const mockAdapter = m.contract("MockAdapter", [usdc, hzStable]);
+
+  const vaultRegistry = m.contract("VaultRegistry", [0n]);
+
+  const govStaking = m.contract("GovStaking", []);
+
+  const hzl = m.contract("Hazel", [govStaking]);
+
+  // --- wiring ---
+  m.call(hzStable, "setAdapter", [mockAdapter]);
+  m.call(insuranceFund, "setVault", [hzStable]);
+  m.call(govStaking, "setHZL", [hzl]);
+  m.call(hzStable, "setGovStaking", [govStaking]);
+
+  const queueVault = m.call(vaultRegistry, "queueVault", [hzStable]);
+  m.call(vaultRegistry, "registerVault", [hzStable], { after: [queueVault] });
+
+  return {
+    usdc,
+    insuranceFund,
+    revenueDistributor,
+    hzStable,
+    mockAdapter,
+    vaultRegistry,
+    govStaking,
+    hzl,
+  };
+});
+
+export default HazelBaseSepoliaModule;

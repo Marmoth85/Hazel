@@ -1,0 +1,7 @@
+{
+  "HazelBaseSepolia": {
+    "treasury": "0x0000000000000000000000000000000000000000",
+    "harvestInterval": 86400,
+    "feeRate": 1000
+  }
+}
