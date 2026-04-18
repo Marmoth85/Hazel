@@ -1,8 +1,16 @@
 import hardhatToolboxMochaEthersPlugin from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
 import { configVariable, defineConfig } from "hardhat/config";
 
+import hardhatKeystore from "@nomicfoundation/hardhat-keystore";
+import hardhatVerify from "@nomicfoundation/hardhat-verify";
+
 export default defineConfig({
   plugins: [hardhatToolboxMochaEthersPlugin],
+  verify: {
+    etherscan: {
+      apiKey: configVariable("ETHERSCAN_API_KEY"),
+    }
+  },
   chainDescriptors: {
     42161: {
       name: "Arbitrum One",

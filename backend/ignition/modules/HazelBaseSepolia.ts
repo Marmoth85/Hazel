@@ -6,8 +6,7 @@ const HazelBaseSepoliaModule = buildModule("HazelBaseSepolia", (m) => {
   const harvestInterval = m.getParameter("harvestInterval", 86400n);
   const feeRate = m.getParameter("feeRate", 1000n);
 
-  // Pas d'USDC natif sur baseSepolia — MockERC20 déployé comme asset
-  const usdc = m.contract("MockERC20", ["USD Coin", "USDC", 6]);
+  const usdc = m.contractAt("MockERC20", "0xba50Cd2A20f6DA35D788639E581bca8d0B5d4D5f"); // fake usdc from aave base sepolia faucet
 
   const insuranceFund = m.contract("InsuranceFund", [
     "0x0000000000000000000000000000000000000000",

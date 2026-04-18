@@ -1,0 +1,10 @@
+{
+  "HazelBaseSepolia#MockERC20": "0xba50Cd2A20f6DA35D788639E581bca8d0B5d4D5f",
+  "HazelBaseSepolia#GovStaking": "0xf249891dE9e6622D7e262A8334093d55062a0294",
+  "HazelBaseSepolia#InsuranceFund": "0x46B08797d144cf5F87Dd748F1C3f4F690D0D2901",
+  "HazelBaseSepolia#VaultRegistry": "0x7dccb37100a558AFA2380f98b7f9732DB2BD131a",
+  "HazelBaseSepolia#Hazel": "0xDe2d34697b3c6d4D27E5B69ffD375af9bf8448EC",
+  "HazelBaseSepolia#RevenueDistributor": "0x522dB21215e71f2fD3F28eF906422F2Ee3225A54",
+  "HazelBaseSepolia#HzStable": "0xf03F992c90b7c0D2c9C7b0503bE5EADb0F0dC063",
+  "HazelBaseSepolia#MockAdapter": "0xFfc715FaCB8D1bD08284300729009A5985E1184c"
+}
