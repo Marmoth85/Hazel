@@ -5,6 +5,8 @@ const HazelBaseSepoliaModule = buildModule("HazelBaseSepolia", (m) => {
   const treasury = m.getParameter("treasury", deployer);
   const harvestInterval = m.getParameter("harvestInterval", 86400n);
   const feeRate = m.getParameter("feeRate", 1000n);
+  const aUsdc = m.getParameter<string>("aUsdc");
+  const aavePool = m.getParameter<string>("aavePool");
 
   const usdc = m.contractAt("MockERC20", "0xba50Cd2A20f6DA35D788639E581bca8d0B5d4D5f"); // fake usdc from aave base sepolia faucet
 
@@ -26,7 +28,7 @@ const HazelBaseSepoliaModule = buildModule("HazelBaseSepolia", (m) => {
     feeRate,
   ]);
 
-  const mockAdapter = m.contract("MockAdapter", [usdc, hzStable]);
+  const adapter = m.contract("AdapterAave", [hzStable, usdc, aUsdc, aavePool]);
 
   const vaultRegistry = m.contract("VaultRegistry", [0n]);
 
@@ -35,7 +37,7 @@ const HazelBaseSepoliaModule = buildModule("HazelBaseSepolia", (m) => {
   const hzl = m.contract("Hazel", [govStaking]);
 
   // --- wiring ---
-  m.call(hzStable, "setAdapter", [mockAdapter]);
+  m.call(hzStable, "setAdapter", [adapter]);
   m.call(insuranceFund, "setVault", [hzStable]);
   m.call(govStaking, "setHZL", [hzl]);
   m.call(govStaking, "setVaultRegistry", [vaultRegistry]);
@@ -51,7 +53,7 @@ const HazelBaseSepoliaModule = buildModule("HazelBaseSepolia", (m) => {
     insuranceFund,
     revenueDistributor,
     hzStable,
-    mockAdapter,
+    adapter,
     vaultRegistry,
     govStaking,
     hzl,

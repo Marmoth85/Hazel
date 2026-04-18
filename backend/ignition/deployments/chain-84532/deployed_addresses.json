@@ -1,10 +1,10 @@
 {
   "HazelBaseSepolia#MockERC20": "0xba50Cd2A20f6DA35D788639E581bca8d0B5d4D5f",
-  "HazelBaseSepolia#GovStaking": "0xf249891dE9e6622D7e262A8334093d55062a0294",
-  "HazelBaseSepolia#InsuranceFund": "0x46B08797d144cf5F87Dd748F1C3f4F690D0D2901",
-  "HazelBaseSepolia#VaultRegistry": "0x7dccb37100a558AFA2380f98b7f9732DB2BD131a",
-  "HazelBaseSepolia#Hazel": "0xDe2d34697b3c6d4D27E5B69ffD375af9bf8448EC",
-  "HazelBaseSepolia#RevenueDistributor": "0x522dB21215e71f2fD3F28eF906422F2Ee3225A54",
-  "HazelBaseSepolia#HzStable": "0xf03F992c90b7c0D2c9C7b0503bE5EADb0F0dC063",
-  "HazelBaseSepolia#MockAdapter": "0xFfc715FaCB8D1bD08284300729009A5985E1184c"
+  "HazelBaseSepolia#GovStaking": "0xC178e944aE9A6d84BFb329843d602f62D022e0B8",
+  "HazelBaseSepolia#InsuranceFund": "0x6c5dbe029626714CcB4d29f13Cd576Cb42fc6950",
+  "HazelBaseSepolia#VaultRegistry": "0x988b59F7671ceBec8E30E4824102377fC6Ad399d",
+  "HazelBaseSepolia#Hazel": "0x6ff3Bfcf2cC24Ce869d275F09210fE89473AEeD7",
+  "HazelBaseSepolia#RevenueDistributor": "0x4fcDcaB2EA87F966A211507DdDB77241F9A7c730",
+  "HazelBaseSepolia#HzStable": "0xCe4283b36ce664f7D9c673E989bc44a726f26902",
+  "HazelBaseSepolia#AdapterAave": "0xE10fAA22D8D094dc29D75E47cd7b59f1590Dbdd4"
 }
