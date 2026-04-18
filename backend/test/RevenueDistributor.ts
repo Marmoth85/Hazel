@@ -70,8 +70,8 @@ describe('RevenueDistributor tests', function() {
             expect(await revenueDistributor.treasuryWeight()).to.equal(1_000n);
         });
 
-        it('RevenueDistributor should have correct default association share (25%) after deployment', async function() {
-            expect(await revenueDistributor.associationWeight()).to.equal(2_500n);
+        it('RevenueDistributor should have correct default association share (80%) after deployment', async function() {
+            expect(await revenueDistributor.associationWeight()).to.equal(8_000n);
         });
 
         it('RevenueDistributor should have correct default insurance share (10%) after deployment', async function() {
@@ -203,27 +203,26 @@ describe('RevenueDistributor tests', function() {
             );
             await revenueDistributor.connect(owner).distribute();
 
-            const totalAssocShares = SHARES * 2_500n / BPS;
+            const totalAssocShares = SHARES * 8_000n / BPS;
             expect(await mockVaultToken.balanceOf(assoc1.address)).to.equal(totalAssocShares * 3_000n / BPS);
             expect(await mockVaultToken.balanceOf(assoc2.address)).to.equal(totalAssocShares * 7_000n / BPS);
         });
 
         it('distribute should emit RevenueDistributed event with vault address', async function() {
             const toTreasury = SHARES * 1_000n / BPS;
-            const toAssociations = SHARES * 2_500n / BPS;
+            const toAssociations = SHARES * 8_000n / BPS;
             const toInsurance = SHARES * 1_000n / BPS;
             await expect(revenueDistributor.connect(owner).distribute())
                 .to.emit(revenueDistributor, 'RevenueDistributed')
                 .withArgs(await mockVaultToken.getAddress(), SHARES, toTreasury, toAssociations, toInsurance);
         });
 
-        it('distribute should leave residual (55%) in contract', async function() {
+        it('distribute should leave residual (0%) in contract when weights sum to 100%', async function() {
             await revenueDistributor.connect(owner).addAssociation(assoc1.address, "Assoc One");
             await revenueDistributor.connect(owner).setAssociations([assoc1.address], [10_000]);
             await revenueDistributor.connect(owner).distribute();
-            const residual = SHARES * 5_500n / BPS;
             expect(await mockVaultToken.balanceOf(await revenueDistributor.getAddress()))
-                .to.be.closeTo(residual, 1n);
+                .to.equal(0n);
         });
 
         it('distribute should distribute across multiple vaults in one call', async function() {
@@ -273,7 +272,7 @@ describe('RevenueDistributor tests', function() {
 
             await revenueDistributor.connect(owner).distribute();
 
-            const totalAssocShares = SHARES * 2_500n / BPS;
+            const totalAssocShares = SHARES * 8_000n / BPS;
             expect(await mockVaultToken.balanceOf(assoc1.address)).to.equal(totalAssocShares * 4_000n / BPS);
             expect(await mockVaultToken.balanceOf(assoc2.address)).to.equal(totalAssocShares * 6_000n / BPS);
         });
@@ -331,9 +330,9 @@ describe('RevenueDistributor tests', function() {
         });
 
         it('setShares should update treasury, association and insurance shares', async function() {
-            await revenueDistributor.connect(owner).setShares(2_000n, 3_000n, 1_000n);
+            await revenueDistributor.connect(owner).setShares(2_000n, 7_000n, 1_000n);
             expect(await revenueDistributor.treasuryWeight()).to.equal(2_000n);
-            expect(await revenueDistributor.associationWeight()).to.equal(3_000n);
+            expect(await revenueDistributor.associationWeight()).to.equal(7_000n);
             expect(await revenueDistributor.insuranceWeight()).to.equal(1_000n);
         });
 
