@@ -30,7 +30,7 @@ export function Sidebar() {
     functionName: 'owner',
     query: { enabled: !!address },
   })
-  const isAdmin = address && owner && address.toLowerCase() === (owner as string).toLowerCase()
+  const isAdmin = !!(address && owner && address.toLowerCase() === (owner as string).toLowerCase())
 
   const link = (href: string, label: string, Icon: React.FC<{ className?: string }>, muted = false) => {
     const active =
