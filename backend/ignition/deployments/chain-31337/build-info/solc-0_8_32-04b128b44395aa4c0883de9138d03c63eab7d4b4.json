@@ -1,9 +1,12 @@
 {
   "_format": "hh3-sol-build-info-1",
-  "id": "solc-0_8_32-004123340a8bd70cae25d3093cd4560ce35dbf53",
+  "id": "solc-0_8_32-04b128b44395aa4c0883de9138d03c63eab7d4b4",
   "solcVersion": "0.8.32",
   "solcLongVersion": "0.8.32+commit.ebbd65e5",
   "compilerType": "solc",
+  "toolVersions": {
+    "hardhat": "3.4.0"
+  },
   "userSourceNameMap": {
     "contracts/mocks/MockAdapter.sol": "project/contracts/mocks/MockAdapter.sol"
   },
@@ -22,10 +25,16 @@
           ],
           "*": [
             "abi",
-            "evm.bytecode",
-            "evm.deployedBytecode",
-            "evm.methodIdentifiers",
-            "metadata"
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
           ]
         }
       },

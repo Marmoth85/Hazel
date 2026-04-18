@@ -1,9 +1,12 @@
 {
   "_format": "hh3-sol-build-info-1",
-  "id": "solc-0_8_32-046528273a0f5d1424dd9d8256f30ea48e5c5364",
+  "id": "solc-0_8_32-8294287fb1775e15a5ffeaee8af409c739606fbf",
   "solcVersion": "0.8.32",
   "solcLongVersion": "0.8.32+commit.ebbd65e5",
   "compilerType": "solc",
+  "toolVersions": {
+    "hardhat": "3.4.0"
+  },
   "userSourceNameMap": {
     "contracts/VaultRegistry.sol": "project/contracts/VaultRegistry.sol"
   },
@@ -22,10 +25,16 @@
           ],
           "*": [
             "abi",
-            "evm.bytecode",
-            "evm.deployedBytecode",
-            "evm.methodIdentifiers",
-            "metadata"
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
           ]
         }
       },

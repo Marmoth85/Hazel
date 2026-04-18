@@ -1,9 +1,12 @@
 {
   "_format": "hh3-sol-build-info-1",
-  "id": "solc-0_8_32-e1d3b4567c92b1f9636e2865190e1f94d474eef3",
+  "id": "solc-0_8_32-511d491d742254913650af1a1091ddf9b0d16210",
   "solcVersion": "0.8.32",
   "solcLongVersion": "0.8.32+commit.ebbd65e5",
   "compilerType": "solc",
+  "toolVersions": {
+    "hardhat": "3.4.0"
+  },
   "userSourceNameMap": {
     "contracts/mocks/MockERC20.sol": "project/contracts/mocks/MockERC20.sol"
   },
@@ -22,10 +25,16 @@
           ],
           "*": [
             "abi",
-            "evm.bytecode",
-            "evm.deployedBytecode",
-            "evm.methodIdentifiers",
-            "metadata"
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
           ]
         }
       },

@@ -79,6 +79,14 @@ export default defineConfig({
       chainType: "op",
       url: configVariable("BASE_SEPOLIA_RPC_URL"),
       accounts: [configVariable("EVM_TEST_PRIVATE_KEY")],
+    },
+    forkBaseSepolia: {
+      type: "edr-simulated",
+      chainType: "op",
+      forking: {
+        enabled: true,
+        url: configVariable("BASE_SEPOLIA_RPC_URL"),
+      },
     }
   },
 });

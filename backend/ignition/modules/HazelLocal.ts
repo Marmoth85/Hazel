@@ -1,6 +1,7 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+const INITIAL_DEPOSIT = 100_000_000n; // 100 USDC — Protocol-Owned Liquidity
 
 const HazelLocalModule = buildModule("HazelLocal", (m) => {
   const deployer = m.getAccount(0);
@@ -42,16 +43,23 @@ const HazelLocalModule = buildModule("HazelLocal", (m) => {
   const hzl = m.contract("Hazel", [govStaking]);
 
   // --- wiring post-déploiement ---
-  m.call(hzStable, "setAdapter", [mockAdapter]);
+  const setAdapter = m.call(hzStable, "setAdapter", [mockAdapter]);
   m.call(insuranceFund, "setVault", [hzStable]);
   m.call(govStaking, "setHZL", [hzl]);
   m.call(govStaking, "setVaultRegistry", [vaultRegistry]);
-  m.call(hzStable, "setGovStaking", [govStaking]);
+  const setGovStaking = m.call(hzStable, "setGovStaking", [govStaking]);
   m.call(hzl, "setVaultRegistry", [vaultRegistry]);
   m.call(revenueDistributor, "addVault", [hzStable]);
 
   const queueVault = m.call(vaultRegistry, "queueVault", [hzStable]);
-  m.call(vaultRegistry, "registerVault", [hzStable], { after: [queueVault] });
+  const registerVault = m.call(vaultRegistry, "registerVault", [hzStable], { after: [queueVault] });
+
+  // --- Protocol-Owned Liquidity ---
+  const mintPOL    = m.call(usdc, "mint", [deployer, INITIAL_DEPOSIT]);
+  const approvePOL = m.call(usdc, "approve", [hzStable, INITIAL_DEPOSIT], { after: [mintPOL] });
+  m.call(hzStable, "deposit", [INITIAL_DEPOSIT, deployer], {
+    after: [approvePOL, setAdapter, setGovStaking, registerVault],
+  });
 
   return {
     usdc,

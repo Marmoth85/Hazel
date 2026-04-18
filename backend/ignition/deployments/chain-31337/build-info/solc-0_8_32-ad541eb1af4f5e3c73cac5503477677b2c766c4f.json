@@ -1,9 +1,12 @@
 {
   "_format": "hh3-sol-build-info-1",
-  "id": "solc-0_8_32-f266ae55d090a588df3978cf32d3d1d346c4c273",
+  "id": "solc-0_8_32-ad541eb1af4f5e3c73cac5503477677b2c766c4f",
   "solcVersion": "0.8.32",
   "solcLongVersion": "0.8.32+commit.ebbd65e5",
   "compilerType": "solc",
+  "toolVersions": {
+    "hardhat": "3.4.0"
+  },
   "userSourceNameMap": {
     "contracts/Hazel.sol": "project/contracts/Hazel.sol"
   },
@@ -22,17 +25,20 @@
           ],
           "*": [
             "abi",
-            "evm.bytecode",
-            "evm.deployedBytecode",
-            "evm.methodIdentifiers",
-            "metadata"
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
           ]
         }
       },
       "remappings": [
-        "project/:@openzeppelin/contracts/=npm/@openzeppelin/contracts@5.6.1/",
-        "project/:@openzeppelin/contracts/=npm/@openzeppelin/contracts@5.6.1/",
-        "project/:@openzeppelin/contracts/=npm/@openzeppelin/contracts@5.6.1/",
         "project/:@openzeppelin/contracts/=npm/@openzeppelin/contracts@5.6.1/"
       ]
     },

@@ -1,9 +1,12 @@
 {
   "_format": "hh3-sol-build-info-1",
-  "id": "solc-0_8_32-79e27ef4772dccf72fe4130d61ba3833322bb423",
+  "id": "solc-0_8_32-f27151a3e4f0ee741303194a1371ba742acb692c",
   "solcVersion": "0.8.32",
   "solcLongVersion": "0.8.32+commit.ebbd65e5",
   "compilerType": "solc",
+  "toolVersions": {
+    "hardhat": "3.4.0"
+  },
   "userSourceNameMap": {
     "contracts/InsuranceFund.sol": "project/contracts/InsuranceFund.sol"
   },
@@ -22,16 +25,20 @@
           ],
           "*": [
             "abi",
-            "evm.bytecode",
-            "evm.deployedBytecode",
-            "evm.methodIdentifiers",
-            "metadata"
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
           ]
         }
       },
       "remappings": [
-        "project/:@openzeppelin/contracts/=npm/@openzeppelin/contracts@5.6.1/",
-        "project/:@openzeppelin/contracts/=npm/@openzeppelin/contracts@5.6.1/",
         "project/:@openzeppelin/contracts/=npm/@openzeppelin/contracts@5.6.1/"
       ]
     },

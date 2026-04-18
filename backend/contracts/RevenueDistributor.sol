@@ -231,7 +231,7 @@ contract RevenueDistributor is Ownable {
             associations[i].weight = weights[i];
         }
 
-        if (sum != BASIS_POINTS) revert WeightsSumMismatch();
+        if (sum != 0 && sum != BASIS_POINTS) revert WeightsSumMismatch();
         totalAssocWeight = sum;
 
         emit AssociationsUpdated();
