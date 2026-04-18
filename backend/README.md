@@ -3,7 +3,7 @@
 Protocole DeFi à impact social.  
 Les utilisateurs déposent des USDC dans un vault ERC-4626. Le yield généré est réparti entre le protocole, des associations socio-éducatives, un fonds d'assurance et les déposants (dilution résiduelle). Un token de liquid restaking (HZL) permet de débloquer la liquidité sans quitter entièrement sa position.
 
-**Chain cible :** Arbitrum One  
+**Chain cible :** Arbitrum One (prod) — testnet actuel : Base Sepolia  
 **Licence :** BUSL-1.1
 
 ---
@@ -76,7 +76,9 @@ Pour connecter MetaMask au nœud local :
   "HazelBaseSepolia": {
     "treasury": "0xVOTRE_ADRESSE",
     "harvestInterval": 86400,
-    "feeRate": 1000
+    "feeRate": 1000,
+    "aUsdc": "0x...",
+    "aavePool": "0x..."
   }
 }
 ```
@@ -92,8 +94,15 @@ npx hardhat ignition deploy ignition/modules/HazelBaseSepolia.ts \
 ### Scripts utilitaires (local uniquement)
 
 ```bash
+# Approvisionner les comptes de test en USDC (10 000 USDC × 5 comptes)
+npx hardhat run scripts/seed.ts --network localhost
+
 # Simuler du yield dans MockAdapter — à exécuter après au moins un dépôt dans le vault
 npx hardhat run scripts/simulateYield.ts --network localhost
+
+# Avancer le temps Hardhat de 30 jours et miner un bloc
+# Utile pour débloquer le harvestInterval et tester le cycle harvest/distribute depuis l'interface
+npx hardhat run scripts/advance-time.ts --network localhost
 ```
 
 ---
@@ -108,7 +117,7 @@ npx hardhat test
 npx hardhat test --coverage
 ```
 
-277 tests, tous passants. Coverage 100% sur tous les contrats de production (hors mocks).
+277 tests, tous passants. Le rapport de coverage Hardhat affiche ~100% sur les contrats de production — les lignes non couvertes sont dans les mocks (MockAdapter, MockERC20), qui ne sont pas des contrats de production. L'outil ne distingue pas mocks et contrats réels dans son agrégat, ce qui rend le chiffre optimiste.
 
 ---
 
@@ -125,6 +134,37 @@ npx hardhat test --coverage
 | `GovStaking.sol` | Custody des LP shares. Calcule le voting power via un multiplicateur de tier (×1.0 à ×2.5) basé sur la durée de staking. |
 | `Hazel.sol` | Token HZL de liquid restaking. Permet de wrapper des LP shares en HZL ou de les unwrapper pour restaurer le voting power. |
 | `VaultRegistry.sol` | Whitelist des vaults autorisés avec timelock configurable (queue + register). |
+
+### Interfaces
+
+Définies dans `contracts/interfaces/`. Deux rôles distincts :
+
+**Point d'extension** — conçue pour être ré-implémentée sans modifier le reste du protocole :
+
+| Interface | Implémentée par |
+|---|---|
+| `IAdapter.sol` | `AdapterAave.sol`, `MockAdapter.sol` — swapper l'adapter suffit pour changer de protocole de yield |
+
+**Découplage de dépendances circulaires** — évite que les contrats s'importent mutuellement en cercle :
+
+| Interface | Utilisée par | Implémentée par |
+|---|---|---|
+| `IGovStaking.sol` | `HzStable`, `Hazel` | `GovStaking.sol` |
+| `IVaultRegistry.sol` | `GovStaking`, `Hazel` | `VaultRegistry.sol` |
+| `IHazelVault.sol` | `Hazel` | `HzStable.sol` |
+| `IAavePool.sol` | `AdapterAave` | contrat Aave V3 externe |
+| `IMintable.sol` | tests uniquement | `MockERC20.sol` |
+
+### Mocks
+
+Définis dans `contracts/mocks/` — uniquement pour les tests, jamais déployés en production.
+
+| Mock | Rôle |
+|---|---|
+| `MockERC20.sol` | Token ERC-20 mintable librement — simule l'USDC en local |
+| `MockAdapter.sol` | Adapter sans yield réel — permet de tester le vault sans Aave |
+| `MockAavePool.sol` | Simule le comportement du pool Aave V3 (dépôt, retrait, accrual) |
+| `MockVault.sol` | Vault minimal utilisé dans les tests unitaires de `GovStaking` et `Hazel` |
 
 ### Flux de dépôt
 
@@ -189,8 +229,7 @@ anyone → harvest()
 | Module | Réseau | Adapter | Timelock VaultRegistry |
 |---|---|---|---|
 | `HazelLocal.ts` | `localhost` | MockAdapter | 0 |
-| `HazelBaseSepolia.ts` | `baseSepolia` | MockAdapter | 0 |
-| `HazelArbitrum.ts` | `arbitrum` | AdapterAave | 48h |
+| `HazelBaseSepolia.ts` | `baseSepolia` | AdapterAave | 0 |
 
 ---
 
