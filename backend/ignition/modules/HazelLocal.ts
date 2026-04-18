@@ -45,7 +45,10 @@ const HazelLocalModule = buildModule("HazelLocal", (m) => {
   m.call(hzStable, "setAdapter", [mockAdapter]);
   m.call(insuranceFund, "setVault", [hzStable]);
   m.call(govStaking, "setHZL", [hzl]);
+  m.call(govStaking, "setVaultRegistry", [vaultRegistry]);
   m.call(hzStable, "setGovStaking", [govStaking]);
+  m.call(hzl, "setVaultRegistry", [vaultRegistry]);
+  m.call(revenueDistributor, "addVault", [hzStable]);
 
   const queueVault = m.call(vaultRegistry, "queueVault", [hzStable]);
   m.call(vaultRegistry, "registerVault", [hzStable], { after: [queueVault] });

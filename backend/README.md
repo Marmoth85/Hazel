@@ -138,7 +138,7 @@ User → approve(USDC, hzStable) → deposit(assets)
 ```
 
 Dans ce flux, les shares ne transitent jamais par le wallet de l'utilisateur.
-`Hazel.redeem()` retourne les LP shares dans le wallet (suivi d'un `GovStaking.stake()` manuel), mais cette opération n'est pas exposée par la dApp — réservée aux interactions directes avec les contrats.
+`Hazel.redeem()` retourne les LP shares dans le wallet. L'utilisateur peut ensuite les restaker via `GovStaking.stake()`, exposé sur la page `/staking` de la dApp.
 
 ### Flux de retrait
 
@@ -165,14 +165,14 @@ User → unwrap(hzlAmount)
        ├─ forceApprove(govStaking, lpShare)
        └─ govStaking.stakeOnBehalf(user)   ← LP shares restakées, voting power restauré
 
-User → redeem(hzlAmount)          ← non exposé dans la dApp en V1 mais sera possible en V2 couplé à un zapper.
+User → redeem(hzlAmount)
   └─ Hazel.redeem()
        ├─ _burn(user, hzlAmount)
        └─ safeTransfer(vault → user)       ← LP shares dans le wallet
             └─ user peut ensuite : govStaking.stake() pour restaker manuellement
 ```
 
-`wrap` et `unwrap` sont les opérations standard exposées par la dApp. `redeem` est réservé aux interactions directes avec les contrats — l'utilisateur récupère ses LP shares mais perd son ancienneté de staking définitivement.
+`wrap`, `unwrap` et `redeem` sont les trois opérations exposées par la dApp sur `/wrap`. Après un `redeem`, l'utilisateur récupère ses LP shares dans son wallet et peut les restaker manuellement via `/staking` (son ancienneté repart à 0).
 
 ### Harvest
 

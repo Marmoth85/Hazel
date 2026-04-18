@@ -170,7 +170,7 @@ contract GovStaking is Ownable, IGovStaking {
     function getVotingPower(address user, address vault) external view returns (uint256) {
         StakeInfo storage info = stakes[user][vault];
         if (info.stakedAmount == 0) return 0;
-        uint256 elapsed    = block.timestamp - info.weightedTimestamp;
+        uint256 elapsed = block.timestamp - info.weightedTimestamp;
         uint256 multiplier = _tierMultiplier(elapsed);
         return info.stakedAmount * multiplier / SCALE;
     }
@@ -198,8 +198,8 @@ contract GovStaking is Ownable, IGovStaking {
     function _tierMultiplier(uint256 elapsed) internal pure returns (uint256) {
         if (elapsed >= 365 days) return 250;
         if (elapsed >= 180 days) return 200;
-        if (elapsed >= 90 days)  return 150;
-        if (elapsed >= 30 days)  return 125;
+        if (elapsed >= 90 days) return 150;
+        if (elapsed >= 30 days) return 125;
         return 100;
     }
 }
