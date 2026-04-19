@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { usePublicClient } from 'wagmi'
+import { usePublicClient, useAccount } from 'wagmi'
+import { useAppKit } from '@reown/appkit/react'
 import { parseAbiItem } from 'viem'
 import { Footer } from '@/components/layout/Footer'
 import { ThemeToggle } from '@/components/layout/ThemeToggle'
@@ -39,6 +40,8 @@ function useTotalDistributed() {
 }
 
 export default function LandingPage() {
+  const { isConnected } = useAccount()
+  const { open } = useAppKit()
   const { totalAssets, feeRate } = useVaultStats()
   const { assocWeight, insWeight, treasuryWeight, associationCount } = useRevenueDistributor()
   const distributed = useTotalDistributed()
@@ -99,12 +102,21 @@ export default function LandingPage() {
         </div>
         <div className="flex items-center gap-4">
           <ThemeToggle />
-          <Link
-            href="/dashboard"
-            className="text-sm font-medium px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors"
-          >
-            Ouvrir l&apos;app
-          </Link>
+          {isConnected ? (
+            <Link
+              href="/dashboard"
+              className="text-sm font-medium px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors"
+            >
+              Ouvrir l&apos;app
+            </Link>
+          ) : (
+            <button
+              onClick={() => open()}
+              className="text-sm font-medium px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors"
+            >
+              Se connecter
+            </button>
+          )}
         </div>
       </header>
 
@@ -114,14 +126,13 @@ export default function LandingPage() {
           <NetworkBadge />
 
           <h1 className="text-5xl sm:text-6xl font-bold text-slate-900 dark:text-slate-100 tracking-tight mb-6 leading-tight">
-            Votre épargne,{' '}
+            Votre performance,{' '}
             <span className="text-emerald-600 dark:text-emerald-400">un impact réel</span>
           </h1>
 
           <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Hazel génère du yield sur vos actifs et redistribue automatiquement
-            une partie des revenus à des associations socio-éducatives — on-chain,
-            transparent, sans intermédiaire.
+            Allouez une partie de votre performance à l'impact - pas votre capital.
+            Hazel  redistribue automatiquement une partie de la variation de valeur positive à des associations socio-éducatives — on-chain, transparent, sans intermédiaire.
           </p>
 
           <div className="flex items-center justify-center gap-4 flex-wrap">
@@ -129,7 +140,7 @@ export default function LandingPage() {
               href="/vaults"
               className="px-7 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors text-sm"
             >
-              Investir maintenant →
+              Participer maintenant
             </Link>
             <a
               href="#how"
